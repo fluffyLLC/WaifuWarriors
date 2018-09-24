@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class PlayerMovment : MonoBehaviour {
 
-    float speed = 20;
-    float friction = .8f;
+    float speed = 150;
+    float friction = .9f;
     public bool invertX = false;
     public bool invertZ = true;
+    Vector3 velocity = Vector3.zero;
+    Vector3 acceleration = Vector3.zero;
 
 
 
 
-    
 
     // float MouseSensitivityX;
     //float MouseSensitivityY;
@@ -36,21 +37,18 @@ public class PlayerMovment : MonoBehaviour {
     }
 
     private void DoMove() {
-        Vector3 velocity = Vector3.zero;
-
+        
         float x = Input.GetAxis("LeftJoystick_X")*(invertX ? -1 : 1);
         float z = Input.GetAxis("LeftJoystick_Z")*(invertZ ? -1 : 1);
-        //print(x + "," + z);
 
-        velocity.x += x * (speed*Time.deltaTime);
-        velocity.z +=  z * (speed*Time.deltaTime);
+        acceleration = new Vector3(x * (speed * Time.deltaTime), 0, z * (speed * Time.deltaTime));
 
-        transform.position += velocity;
+        velocity += acceleration;
+        
+        pawn.SimpleMove(velocity);
 
         velocity *= friction;
-
-        //pawn.SimpleMove(velocity);
     }
 
-  
+
 }
