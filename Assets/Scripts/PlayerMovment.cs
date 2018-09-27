@@ -29,9 +29,16 @@ public class PlayerMovment : MonoBehaviour {
     Vector3 velocity = Vector3.zero;
     Vector3 acceleration = Vector3.zero;
 
-    enum MovmentState {RunWalk,Dash,Grapple,Jump}
+    
 
+    enum MovmentState {
+        Run,
+        Dash,
+        Grapple,
+        Jump
+    }
 
+    MovmentState playerState;
 
 
 
@@ -44,7 +51,7 @@ public class PlayerMovment : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        
+        playerState = MovmentState.Run;
         pawn = GetComponent<CharacterController>();
         cam = GetComponentInChildren<Camera>();
         //MouseSensitivityX = LookSensitivity;
@@ -53,14 +60,20 @@ public class PlayerMovment : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        
-        DoMove();
+
+        switch (playerState) {
+            case MovmentState.Run:
+                break;
+
+                
+
+
+        }
     }
 
-    private void DoMove() {
-        
-        float x = Input.GetAxis("LeftJoystick_X")*(invertX ? -1 : 1);
-        float z = Input.GetAxis("LeftJoystick_Z")*(invertZ ? -1 : 1);
+    void DoRun() {
+        float x = Input.GetAxis("LeftJoystick_X") * (invertX ? -1 : 1);
+        float z = Input.GetAxis("LeftJoystick_Z") * (invertZ ? -1 : 1);
 
         float totalSpeed;
 
@@ -70,17 +83,20 @@ public class PlayerMovment : MonoBehaviour {
         } else {
             totalSpeed = SPEED;
         }
-        
-        acceleration = Vector3.Normalize(new Vector3(x,0,z)) * totalSpeed;
+
+        acceleration = Vector3.Normalize(new Vector3(x, 0, z)) * totalSpeed;
+
+        DoMove();
+
+    }
+
+    private void DoMove() {
 
         velocity += acceleration;
-        
+
         pawn.SimpleMove(velocity);
 
         velocity *= friction;
-
-
-        
     }
 
     bool ShouldApplyBoost() {
@@ -104,6 +120,7 @@ public class PlayerMovment : MonoBehaviour {
         return false;
     }
 
+    
 
     /*
         bool ApplyBoost(Vector2 leftStick) {
@@ -154,16 +171,13 @@ public class PlayerMovment : MonoBehaviour {
                 xyTap[1] = true;
             }
         }
-
-        
         leftStickPrev = leftStick;
         return false;
     }
 
     void ResetBoost() {
-
-
     } 
+
     */
 
 }
