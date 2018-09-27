@@ -13,24 +13,59 @@ public class PlayerMovment : MonoBehaviour {
       Vector2 leftStickPrev;
      */
 
-
+    /// <summary>
+    /// this const determins the length of the players boost
+    /// </summary>
     const float BOOST_TIMER = .3f;
+    /// <summary>
+    /// this const determins the length of the boost cooldown
+    /// </summary>
     const float BOOST_COOLDOWN = 2;
+    /// <summary>
+    /// this const sets the players additional boost speed
+    /// </summary>
     const float BOOST = 2;
+    /// <summary>
+    /// this const sets the players standard speed
+    /// </summary>
     const float SPEED = 3.5f;
+    /// <summary>
+    /// this float determins the rate of friction on velocity
+    /// </summary>
     float friction = .9f;
+    /// <summary>
+    /// this inverts the z axis of movment
+    /// </summary>
     public bool invertX = false;
+    /// <summary>
+    /// this inverts the z axis of movment
+    /// </summary>
     public bool invertZ = true;
+    /// <summary>
+    /// this is true when the player is boosting
+    /// </summary>
     bool applyingBoost = false;
-    
+    /// <summary>
+    /// this times th elength of the players boost in seconds
+    /// </summary>
     float boostTimer;
+    /// <summary>
+    /// this times the boost cooldown in seconds
+    /// </summary>
     float boostCooldown;
-    
+    /// <summary>
+    /// this contains the players velocity
+    /// </summary>
     Vector3 velocity = Vector3.zero;
+    /// <summary>
+    /// this vector contains the players acceleration
+    /// </summary>
     Vector3 acceleration = Vector3.zero;
 
-    
 
+   /// <summary>
+   /// this contains all the diffrent movment states
+   /// </summary>
     enum MovmentState {
         Run,
         Dash,
@@ -38,18 +73,24 @@ public class PlayerMovment : MonoBehaviour {
         Jump
     }
 
+    /// <summary>
+    /// this contains the current state of the player 
+    /// </summary>
     MovmentState playerState;
 
 
 
-    // float MouseSensitivityX;
-    //float MouseSensitivityY;
-
+    
+    /// <summary>
+    /// Pawn is a refrence to the player controller
+    /// </summary>
     CharacterController pawn;
-    //Camera cam;
 
 
-    // Use this for initialization
+
+    /// <summary>
+    /// This function is called when the class is instantiated. 
+    /// </summary>
     void Start() {
         playerState = MovmentState.Run;
         pawn = GetComponent<CharacterController>();
@@ -58,7 +99,9 @@ public class PlayerMovment : MonoBehaviour {
         //MouseSensitivityY = LookSensitivity;
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// This function runs the relevent state logic baised on playerState. it is called every frame.
+    /// </summary>
     void Update() {
 
         switch (playerState) {
@@ -77,6 +120,9 @@ public class PlayerMovment : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// This function sets the players acceleration baised on the left stick and whether or not the player is boosting. 
+    /// </summary>
     void DoRun() {
         float x = Input.GetAxis("LeftJoystick_X") * (invertX ? -1 : 1);
         float z = Input.GetAxis("LeftJoystick_Z") * (invertZ ? -1 : 1);
@@ -98,7 +144,10 @@ public class PlayerMovment : MonoBehaviour {
 
     }
 
-    private void DoMove() {
+    /// <summary>
+    /// This function moves the player using accelaeration, velocity and simple move
+    /// </summary>
+    void DoMove() {
 
         velocity += acceleration;
 
@@ -107,6 +156,10 @@ public class PlayerMovment : MonoBehaviour {
         velocity *= friction;
     }
 
+    /// <summary>
+    /// This function returnes true if the player should be boosting.
+    /// </summary>
+    /// <returns> Returns true if the boost cooldown is 0, and boost timer is above 0 </returns>
     bool ShouldApplyBoost() {
         if (boostTimer > 0) {
             boostTimer -= Time.deltaTime;
@@ -116,9 +169,9 @@ public class PlayerMovment : MonoBehaviour {
                 boostCooldown = BOOST_COOLDOWN;
             }
             return true;
-        } else if(boostCooldown > 0) {
+        } else if (boostCooldown > 0) {
             boostCooldown -= Time.deltaTime;
-            if(boostCooldown <= 0){
+            if (boostCooldown <= 0) {
                 boostCooldown = 0;
             }
         } else if (Input.GetButtonDown("LeftStickClick")) {
@@ -128,7 +181,7 @@ public class PlayerMovment : MonoBehaviour {
         return false;
     }
 
-    
+
 
     /*
         bool ApplyBoost(Vector2 leftStick) {
