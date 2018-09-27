@@ -4,21 +4,28 @@ using UnityEngine;
 
 public class PlayerMovment : MonoBehaviour {
 
-    const float TAP_TIMER = .1f;
+    /*
+     Unused tap detection variables
+      const float TAP_TIMER = .1f;
+      bool listenForBoost = false;
+      bool[] xyTap = new bool[2];
+      float tapDetectionTimer;
+      Vector2 leftStickPrev;
+     */
+
+
     const float BOOST_TIMER = .3f;
-    const float BOOST_COOLDOWN = 0;
+    const float BOOST_COOLDOWN = 2;
     const float BOOST = 2;
-    const float SPEED = 3;
+    const float SPEED = 3.5f;
     float friction = .9f;
     public bool invertX = false;
     public bool invertZ = true;
     bool applyingBoost = false;
-    bool listenForBoost = false;
-    bool[] xyTap = new bool[2];
-    float tapDetectionTimer;
+    
     float boostTimer;
     float boostCooldown;
-    Vector2 leftStickPrev;
+    
     Vector3 velocity = Vector3.zero;
     Vector3 acceleration = Vector3.zero;
 
@@ -57,13 +64,10 @@ public class PlayerMovment : MonoBehaviour {
 
         float totalSpeed;
 
-        if (ApplyBoost(new Vector2(Mathf.Abs(x), Mathf.Abs(z)))) {
+        if (ShouldApplyBoost()) {
             totalSpeed = SPEED + BOOST;
-            print("Boosting" + x);
-            
+            print("boosting");
         } else {
-            print(Mathf.Abs(x) + "," + Mathf.Abs(z));
-            print(tapDetectionTimer);
             totalSpeed = SPEED;
         }
         
@@ -79,7 +83,30 @@ public class PlayerMovment : MonoBehaviour {
         
     }
 
-    bool ApplyBoost(Vector2 leftStick) {
+    bool ShouldApplyBoost() {
+        if (boostTimer > 0) {
+            boostTimer -= Time.deltaTime;
+            if (boostTimer <= 0) {
+                applyingBoost = false;
+                boostTimer = 0;
+                boostCooldown = BOOST_COOLDOWN;
+            }
+            return true;
+        } else if(boostCooldown > 0) {
+            boostCooldown -= Time.deltaTime;
+            if(boostCooldown <= 0){
+                boostCooldown = 0;
+            }
+        } else if (Input.GetButtonDown("LeftStickClick")) {
+            boostTimer = BOOST_TIMER;
+            applyingBoost = true;
+        }
+        return false;
+    }
+
+
+    /*
+        bool ApplyBoost(Vector2 leftStick) {
 
         if (leftStick == Vector2.zero && applyingBoost) {
             applyingBoost = false;
@@ -137,6 +164,6 @@ public class PlayerMovment : MonoBehaviour {
 
 
     } 
-
+    */
 
 }
