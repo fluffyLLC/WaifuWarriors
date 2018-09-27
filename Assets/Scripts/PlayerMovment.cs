@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// This class handles the movment of the player character within the scene
+/// </summary>
 public class PlayerMovment : MonoBehaviour {
 
     /*
