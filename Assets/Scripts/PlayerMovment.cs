@@ -46,14 +46,14 @@ public class PlayerMovment : MonoBehaviour {
     //float MouseSensitivityY;
 
     CharacterController pawn;
-    Camera cam;
+    //Camera cam;
 
 
     // Use this for initialization
     void Start() {
         playerState = MovmentState.Run;
         pawn = GetComponent<CharacterController>();
-        cam = GetComponentInChildren<Camera>();
+        //cam = GetComponentInChildren<Camera>();
         //MouseSensitivityX = LookSensitivity;
         //MouseSensitivityY = LookSensitivity;
     }
@@ -63,11 +63,17 @@ public class PlayerMovment : MonoBehaviour {
 
         switch (playerState) {
             case MovmentState.Run:
+                DoRun();
                 break;
-
-                
-
-
+            case MovmentState.Dash:
+                break;
+            case MovmentState.Grapple:
+                break;
+            case MovmentState.Jump:
+                break;
+            default:
+                print("Error: PlayerMovement.playerState is out of bounds");
+                break;
         }
     }
 
@@ -75,11 +81,13 @@ public class PlayerMovment : MonoBehaviour {
         float x = Input.GetAxis("LeftJoystick_X") * (invertX ? -1 : 1);
         float z = Input.GetAxis("LeftJoystick_Z") * (invertZ ? -1 : 1);
 
+        //print(x);
+
         float totalSpeed;
 
         if (ShouldApplyBoost()) {
             totalSpeed = SPEED + BOOST;
-            print("boosting");
+            //print("boosting");
         } else {
             totalSpeed = SPEED;
         }
