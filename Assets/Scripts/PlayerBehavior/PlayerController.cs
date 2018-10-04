@@ -4,30 +4,42 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
+    /// <summary>
+    /// the number of the controller curently giving input to this pawn
+    /// </summary>
+    public int controllerNum = 1;
+
+    public Transform sword;
+    public CapsuleCollider blade;
+
     private PlayerState playerState;
 
     // Use this for initialization
     void Start() {
-        SwitchPlayerState(new PlayerStateNormal());
 
+        SwitchPlayerState(new PlayerStateNormal());
     }
 
     // Update is called once per frame
     void Update() {
-
-        PlayerState newState = playerState.Update();
-        SwitchPlayerState(newState);
-    }
-
-    private void SwitchPlayerState(PlayerState newState) {
+        //print(playerState);
         if (playerState != null) {
-
-            if (playerState != null) playerState.OnExit();
-
-            playerState = newState;
-
-            playerState.OnEnter(this);
-
+            
+            PlayerState newState = playerState.Update();
+            SwitchPlayerState(newState);
         }
     }
+
+
+    private void SwitchPlayerState(PlayerState newState) {
+
+        if (newState != null) {
+
+            if (playerState != null) playerState.OnExit();
+            playerState = newState;
+            playerState.OnEnter(this);
+        }
+    }
+
+   
 }
