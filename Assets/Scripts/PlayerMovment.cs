@@ -64,16 +64,46 @@ public class PlayerMovment : MonoBehaviour {
     /// </summary>
     Vector3 acceleration = Vector3.zero;
 
+    /// <summary>
+    /// the number of the controller curently giving input to this pawn
+    /// </summary>
     public int controllerNum = 1;
 
+    /// <summary>
+    /// the string text for the a button input
+    /// </summary>
     string aButton;
+    /// <summary>
+    /// the string text for the b button input
+    /// </summary>
     string bButton;
+    /// <summary>
+    /// the string text for the x button input
+    /// </summary>
     string xButton;
+    /// <summary>
+    /// the string text for the y button input
+    /// </summary>
     string yButton;
+    /// <summary>
+    /// the string text for the joystick x input
+    /// </summary>
     string leftJoystickX;
+    /// <summary>
+    /// the string text for the left joystick z  input
+    /// </summary>
     string leftJoystickZ;
+    /// <summary>
+    /// the string text for the right joystick x input
+    /// </summary>
     string rightJoystickX;
+    /// <summary>
+    /// the string text for the right right joystick y input
+    /// </summary>
     string rightJoystickY;
+    /// <summary>
+    /// the string text for the left stick click input
+    /// </summary>
     string leftStickClick;
 
 
