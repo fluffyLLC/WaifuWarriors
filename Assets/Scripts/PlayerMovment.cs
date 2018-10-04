@@ -64,10 +64,23 @@ public class PlayerMovment : MonoBehaviour {
     /// </summary>
     Vector3 acceleration = Vector3.zero;
 
+    public int controllerNum = 1;
 
-   /// <summary>
-   /// this contains all the diffrent movment states
-   /// </summary>
+    string aButton;
+    string bButton;
+    string xButton;
+    string yButton;
+    string leftJoystickX;
+    string leftJoystickZ;
+    string rightJoystickX;
+    string rightJoystickY;
+    string leftStickClick;
+
+
+
+    /// <summary>
+    /// this contains all the diffrent movment states
+    /// </summary>
     enum MovmentState {
         Run,
         Dash,
@@ -82,7 +95,7 @@ public class PlayerMovment : MonoBehaviour {
 
 
 
-    
+
     /// <summary>
     /// Pawn is a refrence to the player controller
     /// </summary>
@@ -96,6 +109,15 @@ public class PlayerMovment : MonoBehaviour {
     void Start() {
         playerState = MovmentState.Run;
         pawn = GetComponent<CharacterController>();
+        aButton = controllerNum + "_A_Button";
+        bButton = controllerNum + "_B_Button";
+        xButton = controllerNum + "_X_Button";
+        yButton = controllerNum + "_Y_Button";
+        leftJoystickX = controllerNum + "_LeftJoystick_X";
+        leftJoystickZ = controllerNum + "_LeftJoystick_Z";
+        rightJoystickX = controllerNum + "_RightJoyStick_X";
+        rightJoystickY = controllerNum + "_RightJoyStick_Y";
+        leftStickClick = controllerNum + "_LeftStickClick";
         //cam = GetComponentInChildren<Camera>();
         //MouseSensitivityX = LookSensitivity;
         //MouseSensitivityY = LookSensitivity;
@@ -120,17 +142,18 @@ public class PlayerMovment : MonoBehaviour {
                 print("Error: PlayerMovement.playerState is out of bounds");
                 break;
         }
+       
     }
 
     /// <summary>
     /// This function sets the players acceleration baised on the left stick and whether or not the player is boosting. 
     /// </summary>
     void DoRun() {
-        float x = Input.GetAxis("LeftJoystick_X") * (invertX ? -1 : 1);
-        float z = Input.GetAxis("LeftJoystick_Z") * (invertZ ? -1 : 1);
+        float x = Input.GetAxis(leftJoystickX) * (invertX ? -1 : 1);
+        float z = Input.GetAxis(leftJoystickZ) * (invertZ ? -1 : 1);
 
         //print(x);
-
+        print(x + "," + z);
         float totalSpeed;
 
         if (ShouldApplyBoost()) {
@@ -176,7 +199,7 @@ public class PlayerMovment : MonoBehaviour {
             if (boostCooldown <= 0) {
                 boostCooldown = 0;
             }
-        } else if (Input.GetButtonDown("LeftStickClick")) {
+        } else if (Input.GetButtonDown(leftStickClick)) {
             boostTimer = BOOST_TIMER;
             applyingBoost = true;
         }
