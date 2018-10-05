@@ -63,11 +63,14 @@ public class PlayerStateNormal : PlayerState {
     }
     
     void DoRun() {
+        Debug.Log(leftJoystickZ);
+        Debug.Log(Input.GetButton(leftStickClick));
+
         float x = Input.GetAxis(leftJoystickX) * (invertX ? -1 : 1);
         float z = Input.GetAxis(leftJoystickZ) * (invertZ ? -1 : 1);
 
         //print(x);
-        //Debug.Log(x + "," + z);
+        Debug.Log(x + "," + z);
         float totalSpeed;
 
         if (ShouldApplyBoost()) {
@@ -87,6 +90,7 @@ public class PlayerStateNormal : PlayerState {
     /// This function moves the player using accelaeration, velocity and simple move
     /// </summary>
     void DoMove() {
+        
 
         velocity += acceleration;
 
