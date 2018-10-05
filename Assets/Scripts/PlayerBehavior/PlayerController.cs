@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
 
     public Transform sword;
     public CapsuleCollider blade;
+    public ParticleSystem boostEffect;
 
     private PlayerState playerState;
 

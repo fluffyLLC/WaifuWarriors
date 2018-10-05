@@ -7,11 +7,11 @@ public class PlayerStateNormal : PlayerState {
     /// <summary>
     /// this const determins the length of the players boost
     /// </summary>
-    const float BOOST_TIMER = .3f;
+    const float BOOST_TIMER = .4f;
     /// <summary>
     /// this const determins the length of the boost cooldown
     /// </summary>
-    const float BOOST_COOLDOWN = 2;
+    const float BOOST_COOLDOWN = 1;
     /// <summary>
     /// this const sets the players additional boost speed
     /// </summary>
@@ -63,8 +63,7 @@ public class PlayerStateNormal : PlayerState {
     }
     
     void DoRun() {
-        Debug.Log(leftJoystickZ);
-        Debug.Log(Input.GetButton(leftStickClick));
+        //Debug.
 
         float x = Input.GetAxis(leftJoystickX) * (invertX ? -1 : 1);
         float z = Input.GetAxis(leftJoystickZ) * (invertZ ? -1 : 1);
@@ -110,6 +109,7 @@ public class PlayerStateNormal : PlayerState {
                 applyingBoost = false;
                 boostTimer = 0;
                 boostCooldown = BOOST_COOLDOWN;
+               // controller.boostEffect.Stop();
             }
             return true;
         } else if (boostCooldown > 0) {
@@ -120,6 +120,7 @@ public class PlayerStateNormal : PlayerState {
         } else if (Input.GetButtonDown(leftStickClick)) {
             boostTimer = BOOST_TIMER;
             applyingBoost = true;
+            controller.boostEffect.Play();
         }
         return false;
     }
