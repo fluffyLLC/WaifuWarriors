@@ -10,8 +10,13 @@ public class PlayerController : MonoBehaviour {
     public int controllerNum = 1;
 
     public Transform sword;
-    public CapsuleCollider blade;
+    public MeshRenderer blade;
     public ParticleSystem boostEffect;
+    public ParticleSystem dashEffect;
+    public ParticleSystem bladeEffect;
+    public Vector2 prevFacing;
+
+
 
     private PlayerState playerState;
 

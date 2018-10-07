@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class PlayerState {
 
+    
     /// <summary>
     /// the string text for the a button input
     /// </summary>
@@ -80,6 +81,14 @@ public abstract class PlayerState {
     /// the string text for the right trigger input
     /// </summary>
     protected string rightTrigger;
+    /// <summary>
+    /// this inverts the z axis of movment
+    /// </summary>
+    public bool invertX = false;
+    /// <summary>
+    /// this inverts the z axis of movment
+    /// </summary>
+    public bool invertZ = true;
 
 
 
@@ -143,6 +152,23 @@ public abstract class PlayerState {
     /// Should be called before this class is removed 
     /// </summary>
     abstract public void OnExit();
+
+    /// <summary>
+    /// This function returns a Vector2 determined by the x and y axis of the controller's left stick
+    /// </summary>
+    /// <returns></returns>
+    public Vector2 ForwardVector() {
+        return new Vector2(Input.GetAxis(leftJoystickX) * (invertX ? -1 : 1), Input.GetAxis(leftJoystickZ) * (invertZ ? -1 : 1));
+    }
+
+    public void PlayerLook(Vector2 target) {
+        //Quaternion rotation =
+        float angle = Mathf.Atan2(target.x, target.y);
+        angle *= 180/Mathf.PI;
+        //Debug.Log(angle);
+        pawn.transform.eulerAngles = new Vector3(0, angle, 0);
+        
+    }
 
    
 
