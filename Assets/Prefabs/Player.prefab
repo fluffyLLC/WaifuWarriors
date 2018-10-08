@@ -95,7 +95,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1718095245916382
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,7 +235,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1454310895577228}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -369,13 +369,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c05082ad3a7f9d408d0c0e75072c138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllerNum: 1
-  sword: {fileID: 4105769373842778}
+  sword: {fileID: 1574128671259306}
   blade: {fileID: 23250406582544838}
   boostEffect: {fileID: 198561482330343906}
   dashEffect: {fileID: 198846840141776918}
   bladeEffect: {fileID: 198245035389525814}
+  controllerNum: 1
   prevFacing: {x: 0, y: 0}
+  aButton: 
+  bButton: 
+  xButton: 
+  yButton: 
+  leftBumber: 
+  rightBumper: 
+  backButton: 
+  startButton: 
+  leftStickClick: 
+  rightStickClick: 
+  leftJoystickX: 
+  leftJoystickZ: 
+  rightJoystickX: 
+  rightJoystickY: 
+  dPadX: 
+  dPadY: 
+  triggers: 
+  leftTrigger: 
+  rightTrigger: 
 --- !u!136 &136422276509664964
 CapsuleCollider:
   m_ObjectHideFlags: 1

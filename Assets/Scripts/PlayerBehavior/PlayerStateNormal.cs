@@ -117,7 +117,7 @@ public class PlayerStateNormal : PlayerState {
 
                 boostCooldown = 0;
             }
-        } else if (Input.GetButtonDown(leftStickClick)) {
+        } else if (Input.GetButtonDown(controller.leftStickClick)) {
 
             boostTimer = BOOST_TIMER;
             applyingBoost = true;
@@ -127,17 +127,18 @@ public class PlayerStateNormal : PlayerState {
         return false;
     }
 
+
     private bool CheckForMele() {
-        return Input.GetButtonDown(xButton);
+        return Input.GetButtonDown(controller.xButton);
     }
 
     private bool CheckForDash() {
-        return Input.GetButtonDown(bButton);
+        return Input.GetButtonDown(controller.bButton);
     }
 
     override public void OnEnter(PlayerController controller) {
         this.controller = controller;
-        SetInputs(controller.controllerNum);
+        //SetInputs(controller.controllerNum);
         pawn = controller.GetComponent<CharacterController>();
     }
 

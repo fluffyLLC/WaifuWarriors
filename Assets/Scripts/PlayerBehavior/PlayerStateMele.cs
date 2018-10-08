@@ -27,7 +27,7 @@ public class PlayerStateMele : PlayerState {
             animTimer += Time.deltaTime;
             float percent = animTimer / animTime;
             rotatation.y = Mathf.Lerp(weponRotatoin, targetRotation, percent);
-            controller.sword.localEulerAngles = rotatation;
+            controller.sword.transform.localEulerAngles = rotatation;
             pawn.transform.position = Vector3.Lerp(pawn.transform.position, targetPosit, percent);
             return true;
         }
@@ -36,8 +36,8 @@ public class PlayerStateMele : PlayerState {
 
     public override void OnEnter(PlayerController controller) {
         base.OnEnter(controller);
+        controller.sword.SetActive(true); // = true;
         controller.bladeEffect.Play();
-        controller.blade.enabled = true;
         Vector2 punchDirection = ForwardVector();
         if (punchDirection == Vector2.zero) punchDirection = controller.prevFacing;
         targetPosit = Vector3.Normalize(new Vector3(punchDirection.x, 0, punchDirection.y));
@@ -49,8 +49,10 @@ public class PlayerStateMele : PlayerState {
 
 
     public override void OnExit() {
-        controller.blade.enabled = false;
-        controller.sword.localEulerAngles = Vector3.zero;
+
+       // controller.blade.enabled = false;
+        controller.sword.SetActive(false); //localEulerAngles = Vector3.zero;
+        controller.sword.transform.localEulerAngles = Vector3.zero;
 
         //throw new NotImplementedException();
     }
