@@ -4,18 +4,33 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
+    /// <summary>
+    /// this is a refrence to the sword game object
+    /// </summary>
     public GameObject sword;
     //public MeshRenderer blade;
+    /// <summary>
+    /// this is a refrence to the player's boost particle effect
+    /// </summary>
     public ParticleSystem boostEffect;
+    /// <summary>
+    /// this is a refrence to the player's dash particle effect
+    /// </summary>
     public ParticleSystem dashEffect;
+    /// <summary>
+    /// this is a refrence to the player's blade particle effect
+    /// </summary>
     public ParticleSystem bladeEffect;
     /// <summary>
     /// the number of the controller curently giving input to this pawn
     /// </summary>
     public int controllerNum = 1;
 
-
+    
     [HideInInspector]
+    /// <summary>
+    /// this vec2 contains the last non 0 direction of the left joystick
+    /// </summary>
     public Vector2 prevFacing;
 
     [HideInInspector]
@@ -34,16 +49,25 @@ public class PlayerController : MonoBehaviour {
    
 
 
-
+    /// <summary>
+    /// this contains the players current state
+    /// </summary>
     private PlayerState playerState;
 
+
     // Use this for initialization
+    /// <summary>
+    /// this finction initalises this class
+    /// </summary>
     void Start() {
         SetInputs();
         SwitchPlayerState(new PlayerStateNormal());
     }
 
     // Update is called once per frame
+    /// <summary>
+    /// this function is called every frame and runs the player state logic
+    /// </summary>
     void Update() {
         //print(playerState);
         if (playerState != null) {
@@ -53,7 +77,10 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-
+    /// <summary>
+    /// This function switches to a new state and runs the on exit and on erner functions contatined within the finctions
+    /// </summary>
+    /// <param name="newState"> The state to transition to </param>
     private void SwitchPlayerState(PlayerState newState) {
        // print(xButton + " reads: " + Input.GetButton(xButton));
         if (newState != null) {
@@ -64,6 +91,10 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// this function is called when the player is hit with a trigger volume
+    /// </summary>
+    /// <param name="hit">the collider that hits this player</param>
     void OnTriggerEnter(Collider hit) {
         if (hit.gameObject.CompareTag("DealsDamage")) {
             print(playerState.ToString());

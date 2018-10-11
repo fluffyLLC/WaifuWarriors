@@ -5,23 +5,51 @@ using UnityEngine;
 
 public class PlayerStateMele : PlayerState {
 
+    /// <summary>
+    /// the duration of the mele atack in seconds
+    /// </summary>
     float animTime = .15f;
+    /// <summary>
+    /// how long we have been meleing for
+    /// </summary>
     float animTimer = 0;
+    /// <summary>
+    /// the current rotation of the mele object
+    /// </summary>
     float weponRotatoin = 0;
+    /// <summary>
+    /// the target rotation of the mele object
+    /// </summary>
     float targetRotation = -180;
-    float punchLength = 3;
+    /// <summary>
+    /// the distance we should travel while punching
+    /// </summary>
+    float punchLength = 1;
+    /// <summary>
+    /// the target position for the punch
+    /// </summary>
     Vector3 targetPosit;
     //float currentDist;
+
+    /// <summary>
+    /// the vector used to set the rotation
+    /// </summary>
     Vector3 rotatation = Vector3.zero;
 
-
+    /// <summary>
+    /// this function id caled every frame, and runs most of the behaviors contained within this class
+    /// </summary>
+    /// <returns>The next scene to transition to. Returns null if no transition should take place.</returns>
     public override PlayerState Update() {
         if (!DoMele()) return new PlayerStateNormal();
         return null;
     }
 
 
-
+    /// <summary>
+    /// this fcnction contains most of the logic that defines a mele action 
+    /// </summary>
+    /// <returns>returns true if we should continue in the mele state, retuns false if we should transition to the next state</returns>
     bool DoMele() {
         if (animTimer < animTime) {
             animTimer += Time.deltaTime;
@@ -34,6 +62,10 @@ public class PlayerStateMele : PlayerState {
         return false;
     }
 
+    /// <summary>
+    /// This function is called when this class is instantiated and sets up all of the information nessisary for the mele to opoerate 
+    /// </summary>
+    /// <param name="controller">The controller that instantiates this class</param>
     public override void OnEnter(PlayerController controller) {
         base.OnEnter(controller);
         controller.sword.SetActive(true); // = true;
@@ -47,7 +79,9 @@ public class PlayerStateMele : PlayerState {
     }
 
 
-
+    /// <summary>
+    /// this function is calles before this clas is removed, it resets all assets associated with the mele action 
+    /// </summary>
     public override void OnExit() {
 
        // controller.blade.enabled = false;

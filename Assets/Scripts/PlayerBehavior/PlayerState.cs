@@ -18,7 +18,7 @@ public abstract class PlayerState {
 
 
     /// <summary>
-    /// A refrence to the Character controller componnent on the player
+    /// A refrence to the Character controller componnent on the player, this is set in the PlayerStateNormal class
     /// </summary>
     protected CharacterController pawn;
 
@@ -50,10 +50,11 @@ public abstract class PlayerState {
     /// <summary>
     /// Should be called before this class is removed 
     /// </summary>
-    abstract public void OnExit();
+    virtual public void OnExit() { }
+
 
     virtual public void GetActorTransform(Transform actor) {
-       
+        Debug.Log("GetActorTransform has been called but not implimented");
     }
 
     /// <summary>
@@ -64,6 +65,10 @@ public abstract class PlayerState {
         return new Vector2(Input.GetAxis(controller.leftJoystickX) * (invertX ? -1 : 1), Input.GetAxis(controller.leftJoystickZ) * (invertZ ? -1 : 1));
     }
 
+    /// <summary>
+    /// this function changes the players facing baised on teh direction of the left joystick
+    /// </summary>
+    /// <param name="target">The left joystick</param>
     public void PlayerLook(Vector2 target) {
         //Quaternion rotation =
         float angle = Mathf.Atan2(target.x, target.y);

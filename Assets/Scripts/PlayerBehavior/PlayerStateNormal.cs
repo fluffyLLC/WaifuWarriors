@@ -45,16 +45,21 @@ public class PlayerStateNormal : PlayerState {
     /// </summary>
     Vector3 acceleration = Vector3.zero;
 
-
+    /// <summary>
+    /// this function id caled every frame, and runs most of the behaviors contained within this class
+    /// </summary>
+    /// <returns>The next scene to transition to. Returns null if no transition should take place.</returns>
     override public PlayerState Update() {
         DoRun();
 
-        if (CheckForMele()) return new PlayerStateMele();
-        if (CheckForDash()) return new PlayerStateDash();
+        if (Input.GetButtonDown(controller.xButton)) return new PlayerStateMele();
+        if (Input.GetButtonDown(controller.bButton)) return new PlayerStateDash();
         return null;
     }
 
-    
+    /// <summary>
+    /// this functioin contains most of the behavior that defines simple player movement
+    /// </summary>
     void DoRun() {
 
         Vector2 direction = ForwardVector();
@@ -128,14 +133,7 @@ public class PlayerStateNormal : PlayerState {
         return false;
     }
 
-
-    private bool CheckForMele() {
-        return Input.GetButtonDown(controller.xButton);
-    }
-
-    private bool CheckForDash() {
-        return Input.GetButtonDown(controller.bButton);
-    }
+ 
 
     override public void OnEnter(PlayerController controller) {
         this.controller = controller;
@@ -143,7 +141,6 @@ public class PlayerStateNormal : PlayerState {
         pawn = controller.GetComponent<CharacterController>();
     }
 
-    override public void OnExit() { }
-
+   
     
 }
