@@ -52,6 +52,10 @@ public abstract class PlayerState {
     /// </summary>
     abstract public void OnExit();
 
+    virtual public void GetActorTransform(Transform actor) {
+       
+    }
+
     /// <summary>
     /// This function returns a Vector2 determined by the x and y axis of the controller's left stick
     /// </summary>

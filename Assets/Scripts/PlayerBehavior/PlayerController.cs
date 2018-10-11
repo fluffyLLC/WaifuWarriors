@@ -64,8 +64,16 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    void OnControllerColliderHit(ControllerColliderHit hit) {
-        if (hit.gameObject.CompareTag("DealsDamage")) Debug.Log("touching");
+    void OnTriggerEnter(Collider hit) {
+        if (hit.gameObject.CompareTag("DealsDamage")) {
+            print(playerState.ToString());
+            if (playerState.ToString() != "PlayerStateDash" || playerState.ToString() != "PlayerStateDash") {
+                SwitchPlayerState(new PlayerStateHit());
+                Transform StrikerLocation = hit.GetComponentInParent<Transform>();
+                playerState.GetActorTransform(StrikerLocation);
+            }
+
+        } //Debug.Log("touching");
     }
 
     /// <summary>

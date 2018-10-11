@@ -53,6 +53,7 @@ public class PlayerStateNormal : PlayerState {
         if (CheckForDash()) return new PlayerStateDash();
         return null;
     }
+
     
     void DoRun() {
 
