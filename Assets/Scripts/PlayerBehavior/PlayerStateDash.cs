@@ -19,7 +19,9 @@ public class PlayerStateDash : PlayerState {
     /// <summary>
     /// the distance we want to dash
     /// </summary>
-    float dashLength = 20;
+    float dashLength = 10;
+
+    bool exitToMele = false;
 
 
     // dashDirection;
@@ -31,6 +33,7 @@ public class PlayerStateDash : PlayerState {
     public override PlayerState Update() {
         //throw new System.NotImplementedException();
         if (DoDash()) return null;
+        if (exitToMele) return new PlayerStateMele();
         return new PlayerStateNormal();
     }
 
@@ -45,6 +48,8 @@ public class PlayerStateDash : PlayerState {
             pawn.transform.position = Vector3.Lerp(pawn.transform.position, dashTarget, percent);
             //controller.sword.localEulerAngles = new Vector3(0, Mathf.Lerp(weponRotatoin, targetRotation, percent), 0);
             //controller.transform =
+            if (Input.GetButtonDown(controller.xButton)) exitToMele = true;
+            if (Vector3.Distance(pawn.transform.position, dashTarget) < 0.2f) return false; 
             return true;
         }
        // pawn.transform.position = dashTarget;

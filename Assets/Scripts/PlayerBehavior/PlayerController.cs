@@ -8,7 +8,10 @@ public class PlayerController : MonoBehaviour {
     /// this is a refrence to the sword game object
     /// </summary>
     public GameObject sword;
-    //public MeshRenderer blade;
+    /// <summary>
+    /// This is a refrence to teh players mele colision volume
+    /// </summary>
+    public GameObject meleColisionVolume;
     /// <summary>
     /// this is a refrence to the player's boost particle effect
     /// </summary>
@@ -96,7 +99,7 @@ public class PlayerController : MonoBehaviour {
     /// </summary>
     /// <param name="hit">the collider that hits this player</param>
     void OnTriggerEnter(Collider hit) {
-        if (hit.gameObject.CompareTag("DealsDamage")) {
+        if (hit.gameObject.CompareTag("MeleStrike")) {
             print(playerState.ToString());
             if (playerState.ToString() != "PlayerStateDash" || playerState.ToString() != "PlayerStateDash") {
                 SwitchPlayerState(new PlayerStateHit());

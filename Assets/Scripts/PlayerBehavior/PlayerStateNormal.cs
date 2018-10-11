@@ -19,7 +19,7 @@ public class PlayerStateNormal : PlayerState {
     /// <summary>
     /// this const sets the players standard speed
     /// </summary>
-    const float SPEED = 3f;
+    const float SPEED = 2.5f;
     /// <summary>
     /// this float determins the rate of friction on velocity
     /// </summary>
@@ -96,6 +96,8 @@ public class PlayerStateNormal : PlayerState {
         pawn.SimpleMove(velocity);
 
         velocity *= friction;
+
+       // Debug.Log(velocity);
     }
 
     /// <summary>

@@ -8,7 +8,7 @@ public class PlayerStateHit : PlayerState {
     /// <summary>
     /// The amount of force applyed when the player is hit
     /// </summary>
-    float HitImpulse = 100;
+    float HitImpulse = 50;
     /// <summary>
     /// the amount of friction applied when the player is hit
     /// </summary>
@@ -62,7 +62,7 @@ public class PlayerStateHit : PlayerState {
     /// <param name="actor"> Whatever hit this player </param>
     public override void GetActorTransform(Transform actor) {
         hitDirection =  pawn.transform.position - actor.position;
-        hitDirection.y = 1;
+       // hitDirection.y = 1;
         velocity = Vector3.Normalize(hitDirection) * HitImpulse;
     }
 }

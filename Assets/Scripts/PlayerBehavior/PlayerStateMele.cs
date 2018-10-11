@@ -69,7 +69,11 @@ public class PlayerStateMele : PlayerState {
     public override void OnEnter(PlayerController controller) {
         base.OnEnter(controller);
         controller.sword.SetActive(true); // = true;
+
+        controller.meleColisionVolume.SetActive(true);
+
         controller.bladeEffect.Play();
+
         Vector2 punchDirection = ForwardVector();
         if (punchDirection == Vector2.zero) punchDirection = controller.prevFacing;
         targetPosit = Vector3.Normalize(new Vector3(punchDirection.x, 0, punchDirection.y));
@@ -86,6 +90,7 @@ public class PlayerStateMele : PlayerState {
 
        // controller.blade.enabled = false;
         controller.sword.SetActive(false); //localEulerAngles = Vector3.zero;
+        controller.meleColisionVolume.SetActive(false);
         controller.sword.transform.localEulerAngles = Vector3.zero;
 
         //throw new NotImplementedException();
