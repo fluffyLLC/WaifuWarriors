@@ -44,7 +44,7 @@ public class PlayerStateHit : PlayerState {
     /// </summary>
     /// <returns>returns true if we are still moving, returns false if we are moving slow enough to transition out of hit</returns>
     bool DoMove() {
-
+        Debug.Log("hit");
         //velocity += acceleration;
 
         pawn.SimpleMove(velocity);

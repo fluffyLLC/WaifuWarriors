@@ -135,7 +135,20 @@ public class PlayerStateNormal : PlayerState {
         return false;
     }
 
- 
+    /// <summary>
+    /// this function changes the players facing baised on teh direction of the left joystick
+    /// </summary>
+    /// <param name="target">The left joystick</param>
+    public void PlayerLook(Vector2 target) {
+        //Quaternion rotation =
+        float angle = Mathf.Atan2(target.x, target.y);
+        angle *= 180 / Mathf.PI;
+        //Debug.Log(angle);
+        pawn.transform.eulerAngles = new Vector3(0, angle, 0);
+
+    }
+
+
 
     override public void OnEnter(PlayerController controller) {
         this.controller = controller;

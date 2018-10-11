@@ -99,6 +99,10 @@ public class PlayerController : MonoBehaviour {
     /// </summary>
     /// <param name="hit">the collider that hits this player</param>
     void OnTriggerEnter(Collider hit) {
+        //print();
+
+       // if (hit.gameObject) { print("why are you hiting yourself?"); }
+
         if (hit.gameObject.CompareTag("MeleStrike")) {
             print(playerState.ToString());
             if (playerState.ToString() != "PlayerStateDash" || playerState.ToString() != "PlayerStateDash") {

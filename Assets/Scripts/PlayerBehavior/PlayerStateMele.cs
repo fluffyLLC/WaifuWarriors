@@ -36,13 +36,16 @@ public class PlayerStateMele : PlayerState {
     /// </summary>
     Vector3 rotatation = Vector3.zero;
 
+    int running;
+
     /// <summary>
     /// this function id caled every frame, and runs most of the behaviors contained within this class
     /// </summary>
     /// <returns>The next scene to transition to. Returns null if no transition should take place.</returns>
     public override PlayerState Update() {
-        if (!DoMele()) return new PlayerStateNormal();
-        return null;
+        if (DoMele()) return null;
+        return new PlayerStateNormal();
+
     }
 
 
@@ -51,14 +54,21 @@ public class PlayerStateMele : PlayerState {
     /// </summary>
     /// <returns>returns true if we should continue in the mele state, retuns false if we should transition to the next state</returns>
     bool DoMele() {
+
+        //if (Time.timeScale < 1) { Time.timeScale += 0.01f; } else if (Time.timeScale != 1) { Time.timeScale = 1; }
+
         if (animTimer < animTime) {
             animTimer += Time.deltaTime;
+            running++;
+            Debug.Log("Frame: " + running + ", animTimer: " + animTimer + ", animTime: " + animTime);
             float percent = animTimer / animTime;
+
             rotatation.y = Mathf.Lerp(weponRotatoin, targetRotation, percent);
             controller.sword.transform.localEulerAngles = rotatation;
             pawn.transform.position = Vector3.Lerp(pawn.transform.position, targetPosit, percent);
             return true;
         }
+
         return false;
     }
 
@@ -68,6 +78,8 @@ public class PlayerStateMele : PlayerState {
     /// <param name="controller">The controller that instantiates this class</param>
     public override void OnEnter(PlayerController controller) {
         base.OnEnter(controller);
+        //Time.timeScale = 0;
+
         controller.sword.SetActive(true); // = true;
 
         controller.meleColisionVolume.SetActive(true);
@@ -88,7 +100,7 @@ public class PlayerStateMele : PlayerState {
     /// </summary>
     public override void OnExit() {
 
-       // controller.blade.enabled = false;
+        // controller.blade.enabled = false;
         controller.sword.SetActive(false); //localEulerAngles = Vector3.zero;
         controller.meleColisionVolume.SetActive(false);
         controller.sword.transform.localEulerAngles = Vector3.zero;
