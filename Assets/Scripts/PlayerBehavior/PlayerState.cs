@@ -65,8 +65,17 @@ public abstract class PlayerState {
         return new Vector2(Input.GetAxis(controller.leftJoystickX) * (invertX ? -1 : 1), Input.GetAxis(controller.leftJoystickZ) * (invertZ ? -1 : 1));
     }
 
-    
+    /// <summary>
+    /// This function returns a Vector2 determined by the x and y axis of the controller's left stick
+    /// </summary>
+    /// <returns></returns>
+    public Vector2 AimVector()
+    {
+        return new Vector2(Input.GetAxis(controller.rightJoystickX), Input.GetAxis(controller.rightJoystickY));
+    }
 
-   
+
+
+
 
 }

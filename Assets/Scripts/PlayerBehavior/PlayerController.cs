@@ -9,6 +9,10 @@ public class PlayerController : MonoBehaviour {
     /// </summary>
     public GameObject sword;
     /// <summary>
+    /// this is a refrence to the reticals root transform
+    /// </summary>
+    public GameObject retical;
+    /// <summary>
     /// This is a refrence to teh players mele colision volume
     /// </summary>
     public GameObject meleColisionVolume;
@@ -29,12 +33,19 @@ public class PlayerController : MonoBehaviour {
     /// </summary>
     public int controllerNum = 1;
 
-    
+    //public SceneController sceneController;
+    public GameObject bulletPrefab;
+    public List<GameObject> bullets = new List<GameObject>();
+
+
+
+
+
     [HideInInspector]
     /// <summary>
-    /// this vec2 contains the last non 0 direction of the left joystick
+    /// this vec2 contains the last non 0 direction of the left joystick(prevFacing) and the rightJoystick(prevAiming) they are set in play state normal
     /// </summary>
-    public Vector2 prevFacing;
+    public Vector2 prevFacing, prevAiming;
 
     [HideInInspector]
     /// <summary>
@@ -48,8 +59,11 @@ public class PlayerController : MonoBehaviour {
     /// </summary>
     public string leftJoystickX, leftJoystickZ, rightJoystickX, rightJoystickY, dPadX, dPadY, triggers, leftTrigger, rightTrigger;
 
+    //[HideInInspector]
 
-   
+    
+
+
 
 
     /// <summary>
@@ -113,6 +127,15 @@ public class PlayerController : MonoBehaviour {
 
         } //Debug.Log("touching");
     }
+
+    public void AddBullet(Vector2 aiming)
+    {
+        GameObject b = Instantiate(bulletPrefab, transform.position, transform.rotation);
+        bullets.Add(b);
+        BulletBehavior acessB = b.GetComponent<BulletBehavior>();
+        acessB.Setup(aiming, controllerNum);
+    }
+
 
     /// <summary>
     /// Assighns the string values of each controller input useing controller num as a prefix to differentiate the controlers 

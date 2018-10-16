@@ -8,12 +8,16 @@ public class PlayerStateHit : PlayerState {
     /// <summary>
     /// The amount of force applyed when the player is hit
     /// </summary>
-    float HitImpulse = 50;
+    float HitImpulse = 75;
     /// <summary>
     /// the amount of friction applied when the player is hit
     /// </summary>
     float friction = .9f;
-
+    /// <summary>
+    /// This const defines the force applied by gravity
+    /// </summary>
+    const float GRAVITY = 20;
+    float accelerationY;
     //Vector3 acceleration;
     /// <summary>
     /// The velocity of the player
@@ -46,9 +50,11 @@ public class PlayerStateHit : PlayerState {
     bool DoMove() {
         Debug.Log("hit");
         //velocity += acceleration;
+        accelerationY += GRAVITY * Time.deltaTime;
 
-        pawn.SimpleMove(velocity);
+        pawn.Move(velocity * Time.deltaTime);
 
+        velocity.y -= accelerationY;///GRAVITY * Time.deltaTime;
         velocity *= friction;
 
         if (Mathf.Abs(velocity.x) < 1 && Mathf.Abs(velocity.z) < 1 ) return false;
@@ -62,7 +68,8 @@ public class PlayerStateHit : PlayerState {
     /// <param name="actor"> Whatever hit this player </param>
     public override void GetActorTransform(Transform actor) {
         hitDirection =  pawn.transform.position - actor.position;
-       // hitDirection.y = 1;
-        velocity = Vector3.Normalize(hitDirection) * HitImpulse;
+        velocity = Vector3.Normalize(hitDirection);
+        velocity.y = .5f;
+        velocity *= HitImpulse;
     }
 }

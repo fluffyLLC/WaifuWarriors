@@ -21,6 +21,10 @@ public class PlayerStateNormal : PlayerState {
     /// </summary>
     const float SPEED = 2.5f;
     /// <summary>
+    /// This const defines the force applied by gravity
+    /// </summary>
+    const float GRAVITY = 20;
+    /// <summary>
     /// this float determins the rate of friction on velocity
     /// </summary>
     float friction = .9f;
@@ -51,7 +55,6 @@ public class PlayerStateNormal : PlayerState {
     /// <returns>The next scene to transition to. Returns null if no transition should take place.</returns>
     override public PlayerState Update() {
         DoRun();
-
         if (Input.GetButtonDown(controller.xButton)) return new PlayerStateMele();
         if (Input.GetButtonDown(controller.bButton)) return new PlayerStateDash();
         return null;
@@ -63,11 +66,28 @@ public class PlayerStateNormal : PlayerState {
     void DoRun() {
 
         Vector2 direction = ForwardVector();
+        Vector2 aiming = AimVector();
 
         if (direction != Vector2.zero) {
             PlayerLook(direction);
             controller.prevFacing = direction;
         }
+
+        if (aiming != Vector2.zero){
+            if (!controller.retical.activeInHierarchy) {
+                controller.retical.SetActive(true);
+            }
+            AimRetical(aiming);
+            HandleShoot(aiming);
+            controller.prevAiming = aiming;
+        } else {
+            if (controller.retical.activeInHierarchy) {
+                controller.retical.SetActive(false);
+            }
+            //AimRetical(controller.prevAiming);
+            HandleShoot(direction);
+        }
+
         
         float totalSpeed;
 
@@ -80,20 +100,20 @@ public class PlayerStateNormal : PlayerState {
             totalSpeed = SPEED;
         }
 
-        acceleration = Vector3.Normalize(new Vector3(direction.x, 0, direction.y)) * totalSpeed;
+        acceleration = Vector3.Normalize(new Vector3(direction.x, -GRAVITY * Time.deltaTime , direction.y)) * totalSpeed;
 
         DoMove();
 
     }
 
     /// <summary>
-    /// This function moves the player using accelaeration, velocity and simple move
+    /// This function moves the player using accelaeration, velocity and Move()
     /// </summary>
     void DoMove() {
         
         velocity += acceleration;
 
-        pawn.SimpleMove(velocity);
+        pawn.Move(velocity * Time.deltaTime);
 
         velocity *= friction;
 
@@ -135,6 +155,13 @@ public class PlayerStateNormal : PlayerState {
         return false;
     }
 
+    void AimRetical(Vector2 target) {
+        float angle = Mathf.Atan2(target.x, target.y);
+        angle *= 180 / Mathf.PI;
+        //Debug.Log(angle);
+        controller.retical.transform.eulerAngles = new Vector3(0, angle, 0);
+    }
+
     /// <summary>
     /// this function changes the players facing baised on teh direction of the left joystick
     /// </summary>
@@ -145,8 +172,15 @@ public class PlayerStateNormal : PlayerState {
         angle *= 180 / Mathf.PI;
         //Debug.Log(angle);
         pawn.transform.eulerAngles = new Vector3(0, angle, 0);
-
     }
+
+    void HandleShoot(Vector2 aiming) {
+        if (Input.GetAxis(controller.rightTrigger) == 1) {
+            controller.AddBullet(aiming);
+        }
+    }
+
+   
 
 
 

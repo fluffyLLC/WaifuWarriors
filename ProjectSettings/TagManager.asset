@@ -6,6 +6,7 @@ TagManager:
   tags:
   - DealsDamage
   - MeleStrike
+  - Bullet
   layers:
   - Default
   - TransparentFX
