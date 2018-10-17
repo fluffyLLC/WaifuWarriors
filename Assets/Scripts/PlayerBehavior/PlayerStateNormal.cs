@@ -49,12 +49,23 @@ public class PlayerStateNormal : PlayerState {
     /// </summary>
     Vector3 acceleration = Vector3.zero;
 
+    float rightTriggerPrev = 0;
+
     /// <summary>
     /// this function id caled every frame, and runs most of the behaviors contained within this class
     /// </summary>
     /// <returns>The next scene to transition to. Returns null if no transition should take place.</returns>
     override public PlayerState Update() {
-        DoRun();
+        Vector2 direction = ForwardVector();
+        PlayerLook(direction);
+        Vector2 aiming = AimVector();
+
+        if (!HandleAim(aiming, direction)) {
+            DoRun();
+        }
+
+        controller.prevFacing = direction;
+        controller.prevAiming = aiming;
         if (Input.GetButtonDown(controller.xButton)) return new PlayerStateMele();
         if (Input.GetButtonDown(controller.bButton)) return new PlayerStateDash();
         return null;
@@ -65,30 +76,8 @@ public class PlayerStateNormal : PlayerState {
     /// </summary>
     void DoRun() {
 
-        Vector2 direction = ForwardVector();
-        Vector2 aiming = AimVector();
+        Vector2 direction = ForwardVector(true);
 
-        if (direction != Vector2.zero) {
-            PlayerLook(direction);
-            controller.prevFacing = direction;
-        }
-
-        if (aiming != Vector2.zero){
-            if (!controller.retical.activeInHierarchy) {
-                controller.retical.SetActive(true);
-            }
-            AimRetical(aiming);
-            HandleShoot(aiming);
-            controller.prevAiming = aiming;
-        } else {
-            if (controller.retical.activeInHierarchy) {
-                controller.retical.SetActive(false);
-            }
-            //AimRetical(controller.prevAiming);
-            HandleShoot(direction);
-        }
-
-        
         float totalSpeed;
 
         if (ShouldApplyBoost()) {
@@ -100,9 +89,12 @@ public class PlayerStateNormal : PlayerState {
             totalSpeed = SPEED;
         }
 
-        acceleration = Vector3.Normalize(new Vector3(direction.x, -GRAVITY * Time.deltaTime , direction.y)) * totalSpeed;
+        // Debug.Log(pawn.transform.position.y);
+
+        acceleration = Vector3.Normalize(new Vector3(direction.x, -GRAVITY * Time.deltaTime, direction.y)) * totalSpeed;
 
         DoMove();
+        
 
     }
 
@@ -110,14 +102,14 @@ public class PlayerStateNormal : PlayerState {
     /// This function moves the player using accelaeration, velocity and Move()
     /// </summary>
     void DoMove() {
-        
+
         velocity += acceleration;
 
         pawn.Move(velocity * Time.deltaTime);
 
         velocity *= friction;
 
-       // Debug.Log(velocity);
+        // Debug.Log(velocity);
     }
 
     /// <summary>
@@ -130,11 +122,11 @@ public class PlayerStateNormal : PlayerState {
 
             boostTimer -= Time.deltaTime;
             if (boostTimer <= 0) {
-                
+
                 applyingBoost = false;
                 boostTimer = 0;
                 boostCooldown = BOOST_COOLDOWN;
-               // controller.boostEffect.Stop();
+                // controller.boostEffect.Stop();
             }
             return true;
         } else if (boostCooldown > 0) {
@@ -155,8 +147,8 @@ public class PlayerStateNormal : PlayerState {
         return false;
     }
 
-    void AimRetical(Vector2 target) {
-        float angle = Mathf.Atan2(target.x, target.y);
+    void AimRetical(Vector2 aiming) {
+        float angle = Mathf.Atan2(aiming.x, aiming.y);
         angle *= 180 / Mathf.PI;
         //Debug.Log(angle);
         controller.retical.transform.eulerAngles = new Vector3(0, angle, 0);
@@ -174,13 +166,37 @@ public class PlayerStateNormal : PlayerState {
         pawn.transform.eulerAngles = new Vector3(0, angle, 0);
     }
 
-    void HandleShoot(Vector2 aiming) {
-        if (Input.GetAxis(controller.rightTrigger) == 1) {
-            controller.AddBullet(aiming);
+    bool HandleAim(Vector2 aiming, Vector2 direction) {
+        if (Input.GetAxis(controller.leftTrigger) == 1) {
+            HanldeShoot(aiming);
+            controller.prevAiming = aiming;
+            if (!controller.retical.activeInHierarchy) {
+                controller.retical.SetActive(true);
+            }
+            AimRetical(aiming);
+            return true;
+        } else if (AimVector(true) == Vector2.zero) {
+            HanldeShoot(direction);
+        } else {
+            HanldeShoot(aiming);
         }
+        if (controller.retical.activeInHierarchy) {
+            controller.retical.SetActive(false);
+        }
+        return false;
     }
 
-   
+
+    void HanldeShoot(Vector2 aiming) {
+        float trigger = Input.GetAxis(controller.rightTrigger);
+        if (trigger == 1 && rightTriggerPrev != 1) {
+            controller.AddBullet(aiming);
+        }
+        rightTriggerPrev = trigger;
+    }
+
+
+
 
 
 
@@ -190,6 +206,6 @@ public class PlayerStateNormal : PlayerState {
         pawn = controller.GetComponent<CharacterController>();
     }
 
-   
-    
+
+
 }

@@ -57,7 +57,8 @@ public class PlayerStateHit : PlayerState {
         velocity.y -= accelerationY;///GRAVITY * Time.deltaTime;
         velocity *= friction;
 
-        if (Mathf.Abs(velocity.x) < 1 && Mathf.Abs(velocity.z) < 1 ) return false;
+        float p = pawn.transform.position.y - 1.5f;
+        if (Mathf.Abs(p) < .1f) return false;
 
         return true;
     }

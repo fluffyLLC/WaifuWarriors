@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour {
     /// This is a refrence to teh players mele colision volume
     /// </summary>
     public GameObject meleColisionVolume;
+
+    public Transform bulletSpawn;
     /// <summary>
     /// this is a refrence to the player's boost particle effect
     /// </summary>
@@ -45,7 +47,7 @@ public class PlayerController : MonoBehaviour {
     /// <summary>
     /// this vec2 contains the last non 0 direction of the left joystick(prevFacing) and the rightJoystick(prevAiming) they are set in play state normal
     /// </summary>
-    public Vector2 prevFacing, prevAiming;
+    public Vector2 prevFacing = new Vector2(0,1), prevAiming = new Vector2(0, 1);
 
     [HideInInspector]
     /// <summary>
@@ -130,7 +132,7 @@ public class PlayerController : MonoBehaviour {
 
     public void AddBullet(Vector2 aiming)
     {
-        GameObject b = Instantiate(bulletPrefab, transform.position, transform.rotation);
+        GameObject b = Instantiate(bulletPrefab, transform.position + Vector3.forward, transform.rotation);
         bullets.Add(b);
         BulletBehavior acessB = b.GetComponent<BulletBehavior>();
         acessB.Setup(aiming, controllerNum);

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public abstract class PlayerState {
 
-    
-   
+
+
     /// <summary>
     /// this inverts the z axis of movment
     /// </summary>
@@ -23,7 +23,7 @@ public abstract class PlayerState {
     protected CharacterController pawn;
 
 
-   
+
 
     /// <summary>
     /// A refrence to the Player controller component that governs over PlayerState 
@@ -61,17 +61,27 @@ public abstract class PlayerState {
     /// This function returns a Vector2 determined by the x and y axis of the controller's left stick
     /// </summary>
     /// <returns></returns>
-    public Vector2 ForwardVector() {
-        return new Vector2(Input.GetAxis(controller.leftJoystickX) * (invertX ? -1 : 1), Input.GetAxis(controller.leftJoystickZ) * (invertZ ? -1 : 1));
+    public Vector2 ForwardVector(bool returnCurrent = false) {
+        Vector2 currentFaceing = new Vector2(Input.GetAxis(controller.leftJoystickX) * (invertX ? -1 : 1), Input.GetAxis(controller.leftJoystickZ) * (invertZ ? -1 : 1));
+
+        if (currentFaceing == Vector2.zero && !returnCurrent) {
+            return controller.prevFacing;
+        }
+
+        return currentFaceing;
     }
 
     /// <summary>
     /// This function returns a Vector2 determined by the x and y axis of the controller's left stick
     /// </summary>
     /// <returns></returns>
-    public Vector2 AimVector()
-    {
-        return new Vector2(Input.GetAxis(controller.rightJoystickX), Input.GetAxis(controller.rightJoystickY));
+    public Vector2 AimVector(bool returnCurrent = false) {
+        Vector2 currentAiming = new Vector2(Input.GetAxis(controller.rightJoystickX), Input.GetAxis(controller.rightJoystickY));
+
+        if (currentAiming == Vector2.zero && !returnCurrent) {
+            return controller.prevAiming;
+        }
+        return currentAiming;
     }
 
 
