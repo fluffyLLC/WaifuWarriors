@@ -5,6 +5,8 @@ using UnityEngine;
 public class WireframeVolume : MonoBehaviour {
 
     MeshFilter _mesh; //C# private C# feild
+
+    public Color color = Color.cyan;
     
    // Mesh 
 
@@ -20,7 +22,7 @@ public class WireframeVolume : MonoBehaviour {
    
 
     void OnDrawGizmos() {
-        Gizmos.color = Color.cyan;
+        Gizmos.color = color;
         //Gizmos.DrawWireCube(transform.position, mesh.bounds.size);
         Gizmos.DrawWireMesh(mesh.mesh, transform.position,transform.rotation,transform.localScale);
 

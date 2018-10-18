@@ -30,7 +30,7 @@ public class BulletBehavior : MonoBehaviour {
         direction = aiming;
 
         acceleration = Vector3.Normalize(new Vector3(direction.x, 0, direction.y)) * impulse;
-        print(acceleration);
+        print(direction);
 
         physics.AddForce(acceleration, ForceMode.Impulse);
     }

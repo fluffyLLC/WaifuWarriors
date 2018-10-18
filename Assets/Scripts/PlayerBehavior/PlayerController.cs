@@ -12,6 +12,10 @@ public class PlayerController : MonoBehaviour {
     /// this is a refrence to the reticals root transform
     /// </summary>
     public GameObject retical;
+
+    //public 
+
+    public Transform reticalSpawn;
     /// <summary>
     /// This is a refrence to teh players mele colision volume
     /// </summary>
@@ -47,7 +51,7 @@ public class PlayerController : MonoBehaviour {
     /// <summary>
     /// this vec2 contains the last non 0 direction of the left joystick(prevFacing) and the rightJoystick(prevAiming) they are set in play state normal
     /// </summary>
-    public Vector2 prevFacing = new Vector2(0,1), prevAiming = new Vector2(0, 1);
+    public Vector2 prevFacing = new Vector2(0, 1), prevAiming = new Vector2(0, 1);
 
     [HideInInspector]
     /// <summary>
@@ -63,7 +67,7 @@ public class PlayerController : MonoBehaviour {
 
     //[HideInInspector]
 
-    
+
 
 
 
@@ -90,7 +94,7 @@ public class PlayerController : MonoBehaviour {
     void Update() {
         //print(playerState);
         if (playerState != null) {
-            
+
             PlayerState newState = playerState.Update();
             SwitchPlayerState(newState);
         }
@@ -101,7 +105,7 @@ public class PlayerController : MonoBehaviour {
     /// </summary>
     /// <param name="newState"> The state to transition to </param>
     private void SwitchPlayerState(PlayerState newState) {
-       // print(xButton + " reads: " + Input.GetButton(xButton));
+        // print(xButton + " reads: " + Input.GetButton(xButton));
         if (newState != null) {
 
             if (playerState != null) playerState.OnExit();
@@ -117,7 +121,7 @@ public class PlayerController : MonoBehaviour {
     void OnTriggerEnter(Collider hit) {
         //print();
 
-       // if (hit.gameObject) { print("why are you hiting yourself?"); }
+        // if (hit.gameObject) { print("why are you hiting yourself?"); }
 
         if (hit.gameObject.CompareTag("MeleStrike")) {
             print(playerState.ToString());
@@ -130,9 +134,8 @@ public class PlayerController : MonoBehaviour {
         } //Debug.Log("touching");
     }
 
-    public void AddBullet(Vector2 aiming)
-    {
-        GameObject b = Instantiate(bulletPrefab, transform.position + Vector3.forward, transform.rotation);
+    public void AddBullet(Vector2 aiming, Vector3 positionModifyer) {
+        GameObject b = Instantiate(bulletPrefab, positionModifyer, transform.rotation);
         bullets.Add(b);
         BulletBehavior acessB = b.GetComponent<BulletBehavior>();
         acessB.Setup(aiming, controllerNum);

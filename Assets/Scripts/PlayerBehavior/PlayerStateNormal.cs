@@ -66,6 +66,7 @@ public class PlayerStateNormal : PlayerState {
 
         controller.prevFacing = direction;
         controller.prevAiming = aiming;
+
         if (Input.GetButtonDown(controller.xButton)) return new PlayerStateMele();
         if (Input.GetButtonDown(controller.bButton)) return new PlayerStateDash();
         return null;
@@ -159,38 +160,50 @@ public class PlayerStateNormal : PlayerState {
     /// </summary>
     /// <param name="target">The left joystick</param>
     public void PlayerLook(Vector2 target) {
-        //Quaternion rotation =
+
         float angle = Mathf.Atan2(target.x, target.y);
         angle *= 180 / Mathf.PI;
-        //Debug.Log(angle);
         pawn.transform.eulerAngles = new Vector3(0, angle, 0);
     }
 
     bool HandleAim(Vector2 aiming, Vector2 direction) {
+
         if (Input.GetAxis(controller.leftTrigger) == 1) {
-            HanldeShoot(aiming);
+
+            HanldeShoot(aiming, controller.reticalSpawn.position);
             controller.prevAiming = aiming;
+
             if (!controller.retical.activeInHierarchy) {
                 controller.retical.SetActive(true);
             }
+
             AimRetical(aiming);
+
             return true;
+
         } else if (AimVector(true) == Vector2.zero) {
-            HanldeShoot(direction);
+            HanldeShoot(direction, controller.bulletSpawn.position);
+            
+
         } else {
-            HanldeShoot(aiming);
+            HanldeShoot(aiming, controller.reticalSpawn.position);
+
+
         }
+
         if (controller.retical.activeInHierarchy) {
             controller.retical.SetActive(false);
         }
+
+        Debug.Log(controller.reticalSpawn.position);
         return false;
     }
 
 
-    void HanldeShoot(Vector2 aiming) {
+    void HanldeShoot(Vector2 aiming, Vector3 positionMod) {
         float trigger = Input.GetAxis(controller.rightTrigger);
         if (trigger == 1 && rightTriggerPrev != 1) {
-            controller.AddBullet(aiming);
+            controller.AddBullet(aiming, positionMod);
         }
         rightTriggerPrev = trigger;
     }
